@@ -10,14 +10,18 @@ export default function Home(){
         navigation.navigate('galeria');
      }
 
+     function handleContatosOpen(){
+        navigation.navigate('contatos')
+     }
+
     return(
             <Container>
                 <ContainerProj onPress={handleGaleriaOpen}>
                     <FontAwesome name="image" size={100} color="black" />
                     <Title>Galeria</Title>
                 </ContainerProj>
-                <ContainerProj>
-                <AntDesign name="contacts" size={100} color="black" />
+                <ContainerProj onPress={handleContatosOpen}>
+                    <Img source={{uri:'https://cdn.icon-icons.com/icons2/2440/PNG/512/gallery_icon_148533.png'}}/>
                     <Title>Contatos</Title>
                 </ContainerProj>
             </Container>
