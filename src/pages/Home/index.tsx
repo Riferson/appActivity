@@ -4,13 +4,14 @@ import {Container,ContainerProj,Img,Title} from './styled';
 import { BackHandler } from 'react-native';
 import { Alert } from 'react-native';
 
+import { AntDesign } from '@expo/vector-icons'; 
+import { FontAwesome } from '@expo/vector-icons'; 
 
 export default function Home(){
     const navigation = useNavigation();
      function handleGaleriaOpen(){
         navigation.navigate('galeria');
      }
-
      const handleExitApp = () => {
         Alert.alert(
           'Confirmação',
@@ -31,14 +32,16 @@ export default function Home(){
         );
       };
 
-
+     function handleContatosOpen(){
+        navigation.navigate('contatos')
+     }
     return(
             <Container>
                 <ContainerProj onPress={handleGaleriaOpen}>
-                    <Img source={{uri:'https://cdn.icon-icons.com/icons2/2440/PNG/512/gallery_icon_148533.png'}}/>
-                    <Title>Galeriaa</Title>
+                    <FontAwesome name="image" size={100} color="black" />
+                    <Title>Galeria</Title>
                 </ContainerProj>
-                <ContainerProj onPress={()=>console.log('pipi')}>
+                <ContainerProj onPress={handleContatosOpen}>
                     <Img source={{uri:'https://cdn.icon-icons.com/icons2/2440/PNG/512/gallery_icon_148533.png'}}/>
                     <Title>Contatos</Title>
                 </ContainerProj>
