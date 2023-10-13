@@ -42,7 +42,7 @@ export default function Home(){
                     <Title>Galeria</Title>
                 </ContainerProj>
                 <ContainerProj onPress={handleContatosOpen}>
-                    <Img source={{uri:'https://cdn.icon-icons.com/icons2/2440/PNG/512/gallery_icon_148533.png'}}/>
+                    <Img source={{uri:'https://cdn-icons-png.flaticon.com/512/1390/1390476.png'}}/>
                     <Title>Contatos</Title>
                 </ContainerProj>
                 <ContainerProj onPress={handleExitApp}>
