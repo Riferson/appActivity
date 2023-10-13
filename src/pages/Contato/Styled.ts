@@ -42,7 +42,6 @@ export const Img = styled.Image`
     margin: 25px auto;
     width: 150px;
     height: 150px;
-    border-bottom: 1px solid green;
 `;
 
 export const ImgContainer = styled.View`
