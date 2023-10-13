@@ -4,6 +4,8 @@ export declare global {
             Galeria:undefined;
             Home:undefined;
             Camera:undefined;
+            Contatos:undefined;
+            Contato:undefined;
         }
     }
 }
