@@ -42,7 +42,7 @@ export default function Home(){
                     <Title>Galeria</Title>
                 </ContainerProj>
                 <ContainerProj onPress={handleContatosOpen}>
-                    <Img source={{uri:'https://cdn.icon-icons.com/icons2/2440/PNG/512/gallery_icon_148533.png'}}/>
+                <AntDesign name="contacts" size={100} color="black" />
                     <Title>Contatos</Title>
                 </ContainerProj>
                 <ContainerProj onPress={handleExitApp}>
