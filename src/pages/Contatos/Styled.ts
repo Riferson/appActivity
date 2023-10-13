@@ -42,3 +42,15 @@ export const Img = styled.Image`
     width: 50px;
     height: 50px;
 `;
+
+export const ContainerHead = styled.View`
+flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+`;
+export const Title = styled.Text`
+    font-size: 32px;
+  text-align: center;
+  flex: 1; 
+  margin-right: 35px;
+`;

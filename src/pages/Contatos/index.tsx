@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import * as Contacts from 'expo-contacts';
 import { useNavigation } from "@react-navigation/native";
-import { Container, Button, Text, ButtonText, ContactCard, Img, View } from './Styled';
+import { Container, Button, Text, ButtonText, ContactCard, Img, View,ContainerHead,Title } from './Styled';
+import { TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons'; 
 
 export default function App() {
   const navigation = useNavigation();
@@ -32,6 +34,13 @@ export default function App() {
 
   return (
     <Container>
+      <ContainerHead>
+            <TouchableOpacity onPress={()=>{navigation.navigate('home');}}>
+                <Ionicons name="arrow-back" size={44} color="black" />
+            </TouchableOpacity>
+        <Title>Contatos</Title>
+
+        </ContainerHead>
       <View>
       <Button onPress={getContacts}>
         <ButtonText>Exibir lista de contatos</ButtonText>
