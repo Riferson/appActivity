@@ -38,15 +38,16 @@ export const Text = styled.Text`
   color: #333;
 `;
 
-export const Img = styled.Image`
-    margin: 25px auto;
-    width: 150px;
-    height: 150px;
-`;
+export const iconStyles = {
+  margin: 25,
+  width: 150,
+  height: 150
+};
 
 export const ImgContainer = styled.View`
     width: 100vw;
     padding: 0;
     border: 1px solid #000;
     border-width: 0 0 1px 0;
+    margin: auto;
 `;

@@ -18,6 +18,7 @@ export function StackRoutes() {
         <Screen name="galeria" component={Galeria} />
         <Screen name="camera" component={CameraDefault} />
         <Screen name="contatos" component={Contatos} />
+        <Screen name="contato" component={Contato} />
         <Screen name="preferencias" component={Preferencias} />
       </Navigator>
     </NavigationContainer>

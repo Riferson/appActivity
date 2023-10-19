@@ -1,25 +1,60 @@
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Alert } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { View, Text, Alert } from 'react-native';
 import { CheckBox } from "react-native-elements";
-import AsyncStorage from '@react-native-async-storage/async-storage'; // Importe o AsyncStorage
-import {
-  Container,
-  Title,
-  ContainerOptions,
-  Options,
-  Label,
-  InputText,
-} from "./styled";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Container, Title, ContainerOptions, Options, Label, InputText, TouchableOpacity } from "./styled";
+import { darkThemeStyles, lightThemeStyles, loadThemePreference } from "../Theme/theme";
+import { useNavigation } from "@react-navigation/native";
+
 
 export default function Preferencias() {
-  const [nome, setNome] = useState(''); // Estado para armazenar o nome
-  const [email, setEmail] = useState(''); // Estado para armazenar o email
-  const [idade, setIdade] = useState(''); // Estado para armazenar a idade
-  const [themeDark, setThemeDark] = useState(false); // Estado para armazenar a configuração do tema escuro
-  const [receberNotificacao, setReceberNotificacao] = useState(false); // Estado para armazenar a configuração de notificação
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [idade, setIdade] = useState('');
+  const [themeDark, setThemeDark] = useState(false);
+  const [receberNotificacao, setReceberNotificacao] = useState(false);
+  const [currentTheme, setCurrentTheme] = useState(lightThemeStyles);
+
+  const loadPreferences = async () => {
+    try {
+      const nomeSalvo = await AsyncStorage.getItem('nome');
+      if (nomeSalvo) setNome(nomeSalvo);
+  
+      const emailSalvo = await AsyncStorage.getItem('email');
+      if (emailSalvo) setEmail(emailSalvo);
+  
+      const idadeSalva = await AsyncStorage.getItem('idade');
+      if (idadeSalva) setIdade(idadeSalva);
+
+      const receberNotificacaoSalvo = await AsyncStorage.getItem('receberNotificacao');
+      if (receberNotificacaoSalvo) setReceberNotificacao(JSON.parse(receberNotificacaoSalvo));
+
+      const temaSalvo = await AsyncStorage.getItem('themeDark');
+      if (temaSalvo) setThemeDark(JSON.parse(temaSalvo))
+    } catch (error) {
+      console.error('Erro ao recuperar dados: ', error);
+    }
+  }
+
+  useEffect(() => {
+    // Execute a função loadPreferences ao abrir a página
+    loadPreferences();
+  }, []);
+
+  const loadTheme = async () => {
+    try {
+      const theme = await loadThemePreference();
+      setCurrentTheme(theme);
+    } catch (error) {
+      console.error('Erro ao recuperar dados: ', error);
+    }
+  }
+
+  useEffect(() => {
+    loadTheme();
+  }, []);
 
   const handleButtonPress = () => {
-    // Salve as configurações usando AsyncStorage
     try {
       AsyncStorage.setItem('nome', nome);
       AsyncStorage.setItem('email', email);
@@ -28,27 +63,23 @@ export default function Preferencias() {
       AsyncStorage.setItem('receberNotificacao', JSON.stringify(receberNotificacao));
 
       Alert.alert('Configurações Salvas', 'Suas configurações foram salvas com sucesso!');
-
-
     } catch (error) {
       console.error('Erro ao salvar configurações: ', error);
     }
   }
 
-  const handleButtonPressMostrar = async () =>{
+  const handleButtonPressMostrar = async () => {
     try {
-      // Use AsyncStorage para recuperar os dados salvos
       const nomeSalvo = await AsyncStorage.getItem('nome');
       const emailSalvo = await AsyncStorage.getItem('email');
       const idadeSalva = await AsyncStorage.getItem('idade');
       const themeDarkSalvo = await AsyncStorage.getItem('themeDark');
       const receberNotificacaoSalvo = await AsyncStorage.getItem('receberNotificacao');
 
-  
-      // Crie uma mensagem com os dados recuperados
-      const mensagem = `Nome: ${nomeSalvo}\nEmail: ${emailSalvo}\nIdade: ${idadeSalva}\nTema Dark: ${themeDark ? 'Ativado' : 'Desativado'}\nReceber Notificação: ${receberNotificacao ? 'Ativado' : 'Desativado'}`;
-  
-      // Exiba os dados em um alerta
+      const mensagem = `Nome: ${nomeSalvo}\nEmail: ${emailSalvo}\nIdade: ${idadeSalva}\nTema Dark: ${
+        themeDark ? 'Ativado' : 'Desativado'
+      }\nReceber Notificação: ${receberNotificacao ? 'Ativado' : 'Desativado'}`;
+
       Alert.alert('Dados Salvos', mensagem);
     } catch (error) {
       console.error('Erro ao recuperar dados: ', error);
@@ -56,51 +87,43 @@ export default function Preferencias() {
   }
 
   return (
-    <Container>
-      <Title>Preferências</Title>
+    <Container style={currentTheme}>
+      <Title style={currentTheme}>Preferências</Title>
       <ContainerOptions>
         <Options>
-          <Label>Nome</Label>
-          <InputText onChangeText={text => setNome(text)} value={nome} />
+          <Label style={currentTheme}>Nome</Label>
+          <InputText onChangeText={text => setNome(text)} value={nome} style={currentTheme} />
         </Options>
         <Options>
-          <Label>Email</Label>
-          <InputText onChangeText={text => setEmail(text)} value={email} />
+          <Label style={currentTheme}>Email</Label>
+          <InputText onChangeText={text => setEmail(text)} value={email} style={currentTheme} />
         </Options>
         <Options>
-          <Label>Idade</Label>
-          <InputText onChangeText={text => setIdade(text)} value={idade} />
+          <Label style={currentTheme}>Idade</Label>
+          <InputText onChangeText={text => setIdade(text)} value={idade} style={currentTheme} />
         </Options>
         <Options>
-          <Label>Theme dark</Label>
-          <CheckBox checked={themeDark} onPress={() => setThemeDark(!themeDark)} />
+          <Label style={currentTheme}>Theme dark</Label>
+          <CheckBox
+          checked={themeDark}
+          onPress={() => {
+            setThemeDark(!themeDark); // Atualiza o estado do CheckBox
+            setCurrentTheme(themeDark ? lightThemeStyles : darkThemeStyles);
+          }}
+        />
         </Options>
         <Options>
-          <Label>Receber Notificação</Label>
+          <Label style={currentTheme}>Receber Notificação</Label>
           <CheckBox checked={receberNotificacao} onPress={() => setReceberNotificacao(!receberNotificacao)} />
         </Options>
       </ContainerOptions>
       <View>
-        <TouchableOpacity
-          onPress={handleButtonPress}
-          style={{
-            backgroundColor: 'blue',
-            padding: 10,
-            borderRadius: 5,
-          }}
-        >
-          <Text style={{ color: 'white', textAlign: 'center' }}>Salvar Configurações</Text>
+        <TouchableOpacity onPress={handleButtonPress}>
+          <Text style={{ color: 'white'}}>Salvar Configurações</Text>
         </TouchableOpacity>
 
-      <TouchableOpacity
-          onPress={handleButtonPressMostrar}
-          style={{
-            backgroundColor: 'blue',
-            padding: 10,
-            borderRadius: 5,
-          }}
-        >
-          <Text style={{ color: 'white', textAlign: 'center' }}>Mostrar Configurações salvas</Text>
+      <TouchableOpacity onPress={handleButtonPressMostrar}>
+          <Text style={{ color: 'white'}}>Mostrar Configurações salvas</Text>
         </TouchableOpacity>
       </View>
     </Container>

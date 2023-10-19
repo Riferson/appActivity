@@ -8,6 +8,7 @@ export const Container = styled.View`
     justify-content: center;
     align-items: center;
     margin-top: 30px;
+    height: 100%;
 `;
 export const Title = styled.Text`
     font-size: 32px;
@@ -47,7 +48,8 @@ export const ScrollViewImagens = styled.ScrollView`
 `;
 
 export const ContainerCamera = styled.View`
-    margin-top: 40px;
+    padding: 20px;
+    margin-bottom: 20px;
 `;
 
 export const ContainerHead = styled.View`

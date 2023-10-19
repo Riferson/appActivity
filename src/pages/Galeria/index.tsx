@@ -6,10 +6,13 @@ import { useDataContext } from '../../Context/DataContext';
 import { FontAwesome } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons'; 
 import Modal from 'react-native-modal';
+import { lightThemeStyles, loadThemePreference } from '../Theme/theme';
 export default function Galeria(){
     const { objetos } = useDataContext(); 
     const [isModalVisible, setModalVisible] = useState(false);
     const [objetoClicado, setObjetoClicado] = useState(null);
+    const [currentTheme, setCurrentTheme] = useState(lightThemeStyles);
+
     const navigation = useNavigation();
      function handleCameraOpen(){
         navigation.navigate('camera');
@@ -20,13 +23,26 @@ export default function Galeria(){
         setModalVisible(true);
       };
 
+      const loadTheme = async () => {
+        try {
+          const theme = await loadThemePreference();
+          setCurrentTheme(theme);
+        } catch (error) {
+          console.error('Erro ao recuperar dados: ', error);
+        }
+      }
+    
+      useEffect(() => {
+        loadTheme();
+      }, []);
+
     return(
-    <Container>
+    <Container style={currentTheme}>
         <ContainerHead>
             <TouchableOpacity onPress={()=>{navigation.navigate('home');}}>
-                <Ionicons name="arrow-back" size={44} color="black" />
+                <Ionicons name="arrow-back" size={44} style={currentTheme} />
             </TouchableOpacity>
-        <Title>Galeria</Title>
+        <Title style={currentTheme}>Galeria</Title>
 
         </ContainerHead>
         <ContainerImagens>
@@ -36,13 +52,13 @@ export default function Galeria(){
                         <TouchableOpacity onPress={() => abrirModal(objeto)} key={index}>
                             <Img source={{ uri: objeto.uri }} />
                          </TouchableOpacity>
-                    ))) : (<Text>Nenhum imagem disponível.</Text>)}
+                    ))) : (<Text style={currentTheme}>Nenhum imagem disponível.</Text>)}
  
                 </ContainerImg>
             </ScrollViewImagens>
         </ContainerImagens>
         <ContainerCamera>
-            <TouchableOpacity  onPress={handleCameraOpen}><FontAwesome name="camera-retro" size={42} color="black" /></TouchableOpacity>
+            <TouchableOpacity  onPress={handleCameraOpen}><FontAwesome name="camera-retro" size={42} style={currentTheme} /></TouchableOpacity>
         </ContainerCamera>
         <Modal isVisible={isModalVisible} backdropColor="black">
       <View>
@@ -53,12 +69,12 @@ export default function Galeria(){
               style={{ width: '100%', height: '90%' }}
             />
             <TouchableOpacity onPress={() => setModalVisible(false)}>
-          <Text>Fechar</Text>
+          <Text style={currentTheme}>Fechar</Text>
         </TouchableOpacity>
         </>
             
           ) : (
-            <Text>Imagem não disponível</Text>
+            <Text style={currentTheme}>Imagem não disponível</Text>
             
           )}
         
