@@ -4,6 +4,9 @@ import { useNavigation } from "@react-navigation/native";
 import { Container, Button, Text, ButtonText, ContactCard, Img, View,ContainerHead,Title } from './Styled';
 import { TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { lightThemeStyles, loadThemePreference } from '../Theme/theme';
+
 
 export default function App() {
   const navigation = useNavigation();
@@ -11,6 +14,7 @@ export default function App() {
     navigation.navigate('contato', { contact });
   }
 
+  const [currentTheme, setCurrentTheme] = useState(lightThemeStyles);
   const [contacts, setContacts] = useState([]);
 
   const getContacts = async () => {
@@ -32,13 +36,27 @@ export default function App() {
     }
   }
 
+  const loadTheme = async () => {
+    try {
+      const theme = await loadThemePreference();
+      setCurrentTheme(theme);
+    } catch (error) {
+      console.error('Erro ao recuperar dados: ', error);
+    }
+  }
+
+  useEffect(() => {
+    loadTheme();
+  }, []);
+
+
   return (
-    <Container>
+    <Container style={currentTheme}>
       <ContainerHead>
             <TouchableOpacity onPress={()=>{navigation.navigate('home');}}>
-                <Ionicons name="arrow-back" size={44} color="black" />
+                <Ionicons name="arrow-back" size={44} style={currentTheme} />
             </TouchableOpacity>
-        <Title>Contatos</Title>
+        <Title style={currentTheme}>Contatos</Title>
 
         </ContainerHead>
       <View>
@@ -47,9 +65,9 @@ export default function App() {
       </Button>
         {contacts.map((contact, i) => (
           <ContactCard key={i} onPress={() => navigateToContactDetail(contact)}>
-              <Img source={{ uri: 'https://cdn.icon-icons.com/icons2/1288/PNG/512/1499345621-contact_85338.png' }} />
-              <Text>{contact.name}</Text>
-              <Text>Clique para ver os detalhes do contato</Text>
+              <Ionicons name="person" size={24} style={currentTheme} />
+              <Text style={currentTheme}>{contact.name}</Text>
+              <Text style={currentTheme}>Clique para ver os detalhes do contato</Text>
           </ContactCard>
         ))}
       </View>

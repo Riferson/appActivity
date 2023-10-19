@@ -7,13 +7,28 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import {FontAwesome} from '@expo/vector-icons';
 import { useDataContext } from "../../Context/DataContext";
 import { Ionicons } from '@expo/vector-icons';
+import { lightThemeStyles, loadThemePreference } from "../Theme/theme";
 
 export default function CameraDefault(){
     const navigation = useNavigation();
     const camRef = useRef(null);
     const [type,setType] = useState(CameraType.back)
     const [hasPermission,setHasPermission] = useState(false);
-    const {adicionarObjeto } = useDataContext(); 
+    const {adicionarObjeto } = useDataContext();
+    const [currentTheme, setCurrentTheme] = useState(lightThemeStyles); 
+
+    const loadTheme = async () => {
+        try {
+          const theme = await loadThemePreference();
+          setCurrentTheme(theme);
+        } catch (error) {
+          console.error('Erro ao recuperar dados: ', error);
+        }
+      }
+    
+      useEffect(() => {
+        loadTheme();
+      }, []);
 
     useEffect(()=>{
         (async()=>{
@@ -52,9 +67,9 @@ export default function CameraDefault(){
         <Container>
             <CameraCustom type={type} ref={camRef}>
                 <ContainerButtons>
-                    <Back  onPress={handleGaleriaOpen}><Ionicons name="chevron-back" size={24} color="black" /></Back>
-                     <TakePicture onPress={takeAPicture}><FontAwesome  name="camera" size={30} /></TakePicture>
-                    <FlipCam onPress={handleSwitchCam}><Ionicons name="ios-camera-reverse" size={24} color="black" /></FlipCam>
+                    <Back onPress={handleGaleriaOpen}><Ionicons name="chevron-back" size={24} style={{ ...currentTheme, padding: 5 }} /></Back>
+                     <TakePicture onPress={takeAPicture}><FontAwesome  name="camera" size={30} style={{ ...currentTheme, padding: 5 }} /></TakePicture>
+                    <FlipCam onPress={handleSwitchCam}><Ionicons name="ios-camera-reverse" size={24} style={{ ...currentTheme, padding: 5 }} /></FlipCam>
                 </ContainerButtons>
             </CameraCustom>
         </Container>

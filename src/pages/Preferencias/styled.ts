@@ -1,7 +1,18 @@
 import styled from "styled-components/native";
 
 export const Container = styled.View`
-  margin: 60px 0 0 20px;
+  margin: 0;
+  padding: 40px 20px;
+  height: 100%;
+`;
+
+export const TouchableOpacity = styled.TouchableOpacity`
+  padding: 10px;
+  background-color: blue;
+  color: green;
+  margin: 0;
+  width: 80%;
+  margin-top: 20px;
 `;
 
 export const Title = styled.Text`
@@ -25,9 +36,10 @@ export const Label = styled.Text`
 `;
 
 export const InputText = styled.TextInput`
-  border: 1px solid red;
+  border: 1px solid blue;
   width: 60%;
   font-size: 20px;
   margin-left: 20px;
   padding: 0 10px;
 `;
+
