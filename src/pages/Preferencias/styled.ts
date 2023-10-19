@@ -31,3 +31,4 @@ export const InputText = styled.TextInput`
   margin-left: 20px;
   padding: 0 10px;
 `;
+
