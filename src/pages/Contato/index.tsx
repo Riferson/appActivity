@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Container,
   Button,
@@ -9,30 +9,22 @@ import {
   View,
   ImgContainer,
 } from "./Styled";
-import { lightThemeStyles, loadThemePreference } from "../Theme/theme";
 import { Ionicons } from "@expo/vector-icons";
+import { ThemeContext } from "../Theme/theme";
+import { useTheme } from "styled-components";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ContactDetail({ route }) {
+  const navigation = useNavigation();
   const { contact } = route.params;
-  const [currentTheme, setCurrentTheme] = useState(lightThemeStyles);
-
-  const loadTheme = async () => {
-    try {
-      const theme = await loadThemePreference();
-      setCurrentTheme(theme);
-    } catch (error) {
-      console.error("Erro ao recuperar dados: ", error);
-    }
-  };
-
-  useEffect(() => {
-    loadTheme();
-  }, []);
+  const { colors } = useTheme();
 
   return (
     <Container>
+          <Button onPress={() => {navigation.navigate("contatos");}}><Ionicons name="arrow-back" size={44} color={colors.colorText} /></Button>
       <ImgContainer>
-        <Ionicons name="person" size={200} />
+        <Ionicons name="person" size={200} color={colors.colorText} />
       </ImgContainer>
 
       <Text>Nome: {contact.name}</Text>

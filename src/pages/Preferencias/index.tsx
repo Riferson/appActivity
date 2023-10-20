@@ -15,13 +15,9 @@ import {
   ContainerHead,
   TouchableOpacityBack,
 } from "./styled";
-import {
-  ThemeContext,
-  lightThemeStyles,
-  loadThemePreference,
-} from "../Theme/theme";
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "styled-components/native";
+import { ThemeContext } from "../Theme/theme";
 
 export default function Preferencias() {
   const { toggleTheme } = useContext(ThemeContext);
@@ -30,7 +26,6 @@ export default function Preferencias() {
   const [idade, setIdade] = useState("");
   const [themeDark, setThemeDark] = useState(false);
   const [receberNotificacao, setReceberNotificacao] = useState(false);
-  const [currentTheme, setCurrentTheme] = useState(lightThemeStyles);
   const navigation = useNavigation();
   const { colors } = useTheme();
 
@@ -63,19 +58,10 @@ export default function Preferencias() {
     }
   };
 
-  const loadTheme = async () => {
-    try {
-      const theme = await loadThemePreference();
-      setCurrentTheme(theme);
-    } catch (error) {
-      console.error("Erro ao recuperar dados: ", error);
-    }
-  };
-
   useEffect(() => {
     // Execute a função loadPreferences ao abrir a página
     loadPreferences();
-    loadTheme();
+
   }, []);
   const handleButtonPress = () => {
     try {
@@ -120,7 +106,6 @@ export default function Preferencias() {
   function handleChangeTheme() {
     setThemeDark(!themeDark); // Atualiza o estado do CheckBox
     toggleTheme();
-    setCurrentTheme(themeDark ? lightThemeStyles : darkThemeStyles);
   }
 
   return (

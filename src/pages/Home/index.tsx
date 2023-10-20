@@ -15,7 +15,6 @@ export default function Home() {
   const { toggleTheme } = useContext(ThemeContext);
 
   const navigation = useNavigation();
-  const [themeDark, setThemeDark] = useState(false);
 
   function handleGaleriaOpen() {
     navigation.navigate("galeria");
@@ -48,7 +47,6 @@ export default function Home() {
   async function loadPreferences() {
     try {
       const temaSalvo = await AsyncStorage.getItem("themeDark");
-      if (temaSalvo) setThemeDark(JSON.parse(temaSalvo));
       if (temaSalvo === "true") {
         toggleTheme();
       }
