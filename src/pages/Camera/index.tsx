@@ -8,6 +8,7 @@ import {FontAwesome} from '@expo/vector-icons';
 import { useDataContext } from "../../Context/DataContext";
 import { Ionicons } from '@expo/vector-icons';
 import { lightThemeStyles, loadThemePreference } from "../Theme/theme";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function CameraDefault(){
     const navigation = useNavigation();
@@ -15,7 +16,22 @@ export default function CameraDefault(){
     const [type,setType] = useState(CameraType.back)
     const [hasPermission,setHasPermission] = useState(false);
     const {adicionarObjeto } = useDataContext();
-    const [currentTheme, setCurrentTheme] = useState(lightThemeStyles); 
+    const [currentTheme, setCurrentTheme] = useState(lightThemeStyles);
+    const [cameraProporcao, setCameraProporcao] = useState('4:3');
+    
+    const getCameraProporcao = async () => {
+        try {
+            const cameraProporcaoSalva = await AsyncStorage.getItem('cameraOption');
+            setCameraProporcao(cameraProporcaoSalva);
+        } catch (error) {
+            console.error('Erro ao recuperar o tema: ', error);
+            return lightThemeStyles; // Pode definir um tema padrão caso haja um erro
+        }
+    }
+
+    useEffect(() => {
+        getCameraProporcao();
+      }, []);
 
     const loadTheme = async () => {
         try {
@@ -65,7 +81,7 @@ export default function CameraDefault(){
 
     return(
         <Container>
-            <CameraCustom type={type} ref={camRef}>
+            <CameraCustom type={type} ref={camRef} ratio={cameraProporcao}>
                 <ContainerButtons>
                     <Back onPress={handleGaleriaOpen}><Ionicons name="chevron-back" size={24} style={{ ...currentTheme, padding: 5 }} /></Back>
                      <TakePicture onPress={takeAPicture}><FontAwesome  name="camera" size={30} style={{ ...currentTheme, padding: 5 }} /></TakePicture>

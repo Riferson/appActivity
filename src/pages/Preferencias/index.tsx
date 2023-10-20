@@ -4,7 +4,7 @@ import { CheckBox } from "react-native-elements";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Container, Title, ContainerOptions, Options, Label, InputText, TouchableOpacity } from "./styled";
 import { darkThemeStyles, lightThemeStyles, loadThemePreference } from "../Theme/theme";
-import { useNavigation } from "@react-navigation/native";
+import { Picker } from '@react-native-picker/picker';
 
 
 export default function Preferencias() {
@@ -14,6 +14,8 @@ export default function Preferencias() {
   const [themeDark, setThemeDark] = useState(false);
   const [receberNotificacao, setReceberNotificacao] = useState(false);
   const [currentTheme, setCurrentTheme] = useState(lightThemeStyles);
+  const [cameraOption, setCameraOption] = useState('4:3');
+  const cameraOptions = ['4:3', '16:9', '1:1'];
 
   const loadPreferences = async () => {
     try {
@@ -30,7 +32,10 @@ export default function Preferencias() {
       if (receberNotificacaoSalvo) setReceberNotificacao(JSON.parse(receberNotificacaoSalvo));
 
       const temaSalvo = await AsyncStorage.getItem('themeDark');
-      if (temaSalvo) setThemeDark(JSON.parse(temaSalvo))
+      if (temaSalvo) setThemeDark(JSON.parse(temaSalvo));
+
+      const cameraOptionSalva = await AsyncStorage.getItem('cameraOption');
+      if (cameraOptionSalva) setCameraOption(cameraOptionSalva);
     } catch (error) {
       console.error('Erro ao recuperar dados: ', error);
     }
@@ -61,6 +66,7 @@ export default function Preferencias() {
       AsyncStorage.setItem('idade', idade);
       AsyncStorage.setItem('themeDark', JSON.stringify(themeDark));
       AsyncStorage.setItem('receberNotificacao', JSON.stringify(receberNotificacao));
+      AsyncStorage.setItem('cameraOption', cameraOption);
 
       Alert.alert('Configurações Salvas', 'Suas configurações foram salvas com sucesso!');
     } catch (error) {
@@ -73,8 +79,6 @@ export default function Preferencias() {
       const nomeSalvo = await AsyncStorage.getItem('nome');
       const emailSalvo = await AsyncStorage.getItem('email');
       const idadeSalva = await AsyncStorage.getItem('idade');
-      const themeDarkSalvo = await AsyncStorage.getItem('themeDark');
-      const receberNotificacaoSalvo = await AsyncStorage.getItem('receberNotificacao');
 
       const mensagem = `Nome: ${nomeSalvo}\nEmail: ${emailSalvo}\nIdade: ${idadeSalva}\nTema Dark: ${
         themeDark ? 'Ativado' : 'Desativado'
@@ -116,6 +120,20 @@ export default function Preferencias() {
           <Label style={currentTheme}>Receber Notificação</Label>
           <CheckBox checked={receberNotificacao} onPress={() => setReceberNotificacao(!receberNotificacao)} />
         </Options>
+        <Options>
+          <Label style={currentTheme}>Opções de Câmera</Label>
+          <View style={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5 }}>
+            <Picker
+              selectedValue={cameraOption}
+              onValueChange={(itemValue) => setCameraOption(itemValue)}
+              style={{ width: 200, height: 40, color: currentTheme.color }}
+            >
+              {cameraOptions.map((option, index) => (
+                <Picker.Item key={index} label={option} value={option} />
+              ))}
+            </Picker>
+          </View>
+      </Options>
       </ContainerOptions>
       <View>
         <TouchableOpacity onPress={handleButtonPress}>
