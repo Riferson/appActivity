@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { Container, ContainerProj, Img, Title } from "./styled";
-import { BackHandler, View } from "react-native";
+import { Container, ContainerProj, Text, Title } from "./styled";
+import { BackHandler } from "react-native";
 import { Alert } from "react-native";
-
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { useTheme } from "styled-components/native";
@@ -13,6 +12,7 @@ import { ThemeContext } from "../Theme/theme";
 export default function Home() {
   const { colors } = useTheme();
   const { toggleTheme } = useContext(ThemeContext);
+  const [nomeUsuario, setNomeUsuario] = useState('');
 
   const navigation = useNavigation();
 
@@ -46,10 +46,9 @@ export default function Home() {
 
   async function loadPreferences() {
     try {
-      const temaSalvo = await AsyncStorage.getItem("themeDark");
-      if (temaSalvo === "true") {
-        toggleTheme();
-      }
+      const nomeSalvo = await AsyncStorage.getItem("nome");
+      setNomeUsuario(nomeSalvo);
+
     } catch (error) {
       console.error("Erro ao recuperar dados: ", error);
     }
@@ -61,13 +60,14 @@ export default function Home() {
 
   return (
     <Container>
+      <Title>Bem-vindo, {nomeUsuario}!</Title>
       <ContainerProj onPress={handleGaleriaOpen}>
         <FontAwesome name="image" size={100} color={colors.colorText} />
-        <Title>Galeria</Title>
+        <Text>Galeria</Text>
       </ContainerProj>
       <ContainerProj onPress={handleContatosOpen}>
         <AntDesign name="contacts" size={100} color={colors.colorText} />
-        <Title>Contatos</Title>
+        <Text>Contatos</Text>
       </ContainerProj>
       <ContainerProj
         onPress={() => {
@@ -75,11 +75,11 @@ export default function Home() {
         }}
       >
         <AntDesign name="setting" size={100} color={colors.colorText} />
-        <Title>Options</Title>
+        <Text>Options</Text>
       </ContainerProj>
       <ContainerProj onPress={handleExitApp}>
         <FontAwesome name="sign-out" size={100} color={colors.colorText} />
-        <Title>Sair</Title>
+        <Text>Sair</Text>
       </ContainerProj>
     </Container>
   );

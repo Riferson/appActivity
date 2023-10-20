@@ -19,6 +19,15 @@ export const Img = styled.Image`
   width: 100px;
   height: 100px;
 `;
-export const Title = styled.Text`
+export const Text = styled.Text`
   color: ${(props) => props.theme.colors.colorText};
 `;
+
+export const Title = styled.Text`
+  color: ${(props) => props.theme.colors.colorText};
+  font-size: 24px;
+  width: 100%;
+  font-weight: 700;
+  margin: 15px 0;
+`;
+
