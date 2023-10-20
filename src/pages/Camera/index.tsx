@@ -7,6 +7,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import {FontAwesome} from '@expo/vector-icons';
 import { useDataContext } from "../../Context/DataContext";
 import { Ionicons } from '@expo/vector-icons';
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function CameraDefault(){
@@ -15,6 +16,23 @@ export default function CameraDefault(){
     const [type,setType] = useState(CameraType.back)
     const [hasPermission,setHasPermission] = useState(false);
     const {adicionarObjeto } = useDataContext();
+
+    const [cameraProporcao, setCameraProporcao] = useState('4:3');
+    
+    const getCameraProporcao = async () => {
+        try {
+            const cameraProporcaoSalva = await AsyncStorage.getItem('cameraOption');
+            setCameraProporcao(cameraProporcaoSalva);
+        } catch (error) {
+            console.error('Erro ao recuperar o tema: ', error);
+            return lightThemeStyles; // Pode definir um tema padrão caso haja um erro
+        }
+    }
+
+    useEffect(() => {
+        getCameraProporcao();
+      }, []);
+
 
     const [cameraProporcao, setCameraProporcao] = useState('4:3');
 

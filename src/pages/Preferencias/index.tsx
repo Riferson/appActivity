@@ -3,6 +3,7 @@ import { View, Text, Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import { CheckBox } from "react-native-elements";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   Container,
@@ -26,6 +27,9 @@ export default function Preferencias() {
   const [email, setEmail] = useState("");
   const [idade, setIdade] = useState("");
   const [themeDark, setThemeDark] = useState(false);
+  const [receberNotificacao, setReceberNotificacao] = useState(false);
+  const [currentTheme, setCurrentTheme] = useState(lightThemeStyles);
+
   const navigation = useNavigation();
   const { colors } = useTheme();
   const [cameraOption, setCameraOption] = useState('4:3');
@@ -63,10 +67,13 @@ export default function Preferencias() {
   }, []);
   const handleButtonPress = () => {
     try {
-      AsyncStorage.setItem("nome", nome);
-      AsyncStorage.setItem("email", email);
-      AsyncStorage.setItem("idade", idade);
-      AsyncStorage.setItem("themeDark", JSON.stringify(themeDark));
+
+      AsyncStorage.setItem('nome', nome);
+      AsyncStorage.setItem('email', email);
+      AsyncStorage.setItem('idade', idade);
+      AsyncStorage.setItem('themeDark', JSON.stringify(themeDark));
+      AsyncStorage.setItem('receberNotificacao', JSON.stringify(receberNotificacao));
+
       AsyncStorage.setItem('cameraOption', cameraOption);
 
       Alert.alert(
@@ -80,6 +87,7 @@ export default function Preferencias() {
 
   const handleButtonPressMostrar = async () => {
     try {
+
       const nomeSalvo = await AsyncStorage.getItem("nome");
       const emailSalvo = await AsyncStorage.getItem("email");
       const idadeSalva = await AsyncStorage.getItem("idade");
@@ -130,7 +138,15 @@ export default function Preferencias() {
           <CheckBox checked={themeDark} onPress={handleChangeTheme} />
         </Options>
         <Options>
+
+          <Label style={currentTheme}>Receber Notificação</Label>
+          <CheckBox checked={receberNotificacao} onPress={() => setReceberNotificacao(!receberNotificacao)} />
+        </Options>
+        <Options>
+          <Label style={currentTheme}>Opções de Câmera</Label>
+
           <Label>Opções de Câmera</Label>
+
           <View style={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5 }}>
             <Picker
               selectedValue={cameraOption}
