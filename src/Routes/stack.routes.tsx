@@ -5,7 +5,7 @@ import Galeria from "../pages/Galeria";
 import { NavigationContainer } from "@react-navigation/native";
 import CameraDefault from "../pages/Camera";
 import Contatos from "../pages/Contatos";
-import Contato from "../pages/Contato";
+import Contato from "../pages/Contato"
 import Preferencias from "../pages/Preferencias";
 
 const { Screen, Navigator } = createStackNavigator();

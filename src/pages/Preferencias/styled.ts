@@ -4,6 +4,7 @@ export const Container = styled.View`
   margin: 0;
   padding: 40px 20px;
   height: 100%;
+  background-color: ${(props) => props.theme.colors.background};
 `;
 
 export const TouchableOpacity = styled.TouchableOpacity`
@@ -14,11 +15,11 @@ export const TouchableOpacity = styled.TouchableOpacity`
   width: 80%;
   margin-top: 20px;
 `;
-
+export const TouchableOpacityBack = styled.TouchableOpacity``;
 export const Title = styled.Text`
-  font-size: 32px;
+  font-size: 22px;
   text-align: center;
-  margin-bottom: 30px;
+  color: ${(props) => props.theme.colors.colorText};
 `;
 
 export const ContainerOptions = styled.View``;
@@ -33,6 +34,7 @@ export const Options = styled.View`
 export const Label = styled.Text`
   font-size: 20px;
   width: 30%;
+  color: ${(props) => props.theme.colors.colorText};
 `;
 
 export const InputText = styled.TextInput`
@@ -41,5 +43,10 @@ export const InputText = styled.TextInput`
   font-size: 20px;
   margin-left: 20px;
   padding: 0 10px;
+  color: ${(props) => props.theme.colors.colorText};
 `;
 
+export const ContainerHead = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;

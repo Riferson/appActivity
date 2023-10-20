@@ -1,35 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Button, Text, ButtonText, ContactCard, iconStyles, View, ImgContainer } from './Styled';
-import { lightThemeStyles, loadThemePreference } from '../Theme/theme';
-import { Ionicons } from '@expo/vector-icons';
+import React from "react";
+import {
+  Container,
+  Button,
+  Text,
+  ImgContainer,
+} from "./Styled";
+import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "styled-components";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ContactDetail({ route }) {
+  const navigation = useNavigation();
   const { contact } = route.params;
-  const [currentTheme, setCurrentTheme] = useState(lightThemeStyles);
-
-  const loadTheme = async () => {
-    try {
-      const theme = await loadThemePreference();
-      setCurrentTheme(theme);
-    } catch (error) {
-      console.error('Erro ao recuperar dados: ', error);
-    }
-  }
-
-  useEffect(() => {
-    loadTheme();
-  }, []);
+  const { colors } = useTheme();
 
   return (
-    <Container style={currentTheme}>
+    <Container>
+          <Button onPress={() => {navigation.navigate("contatos");}}><Ionicons name="arrow-back" size={44} color={colors.colorText} /></Button>
       <ImgContainer>
-      <Ionicons name="person" size={200} style={currentTheme}/>
-    </ImgContainer>
-      
-      <Text style={currentTheme}>Nome: {contact.name}</Text>
-      <Text style={currentTheme}>Número de telefone: {contact.phoneNumbers && contact.phoneNumbers[0]?.number}</Text>
-      {contact.emails && contact.emails[0]?.email && <Text style={currentTheme}>Email: {contact.emails[0].email}</Text>}
-      {contact.jobTitle && <Text style={currentTheme}>Cargo: {contact.jobTitle}</Text>}
+        <Ionicons name="person" size={200} color={colors.colorText} />
+      </ImgContainer>
+
+      <Text>Nome: {contact.name}</Text>
+      <Text>
+        Número de telefone:{" "}
+        {contact.phoneNumbers && contact.phoneNumbers[0]?.number}
+      </Text>
+      {contact.emails && contact.emails[0]?.email && (
+        <Text>Email: {contact.emails[0].email}</Text>
+      )}
+      {contact.jobTitle && <Text>Cargo: {contact.jobTitle}</Text>}
     </Container>
   );
 }

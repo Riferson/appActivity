@@ -4,6 +4,7 @@ export const Container = styled.ScrollView`
     flex: 1;
     height: 100%;
     padding: 40px;
+    background-color: ${(props) => props.theme.colors.background}
 `;
 
 export const View = styled.View`
@@ -20,8 +21,7 @@ export const ContactCard = styled.TouchableOpacity`
 `;
 
 export const Button = styled.TouchableOpacity`
-  background-color: blue;
-  padding: 10px 20px;
+  padding: 5px;
   border-radius: 5px;
   width: 100%;
 `;
@@ -35,7 +35,7 @@ export const ButtonText = styled.Text`
 export const Text = styled.Text`
   font-size: 18px;
   margin-top: 10px;
-  color: #333;
+  color: ${(props) => props.theme.colors.colorText};
 `;
 
 export const iconStyles = {

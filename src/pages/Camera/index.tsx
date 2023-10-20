@@ -7,7 +7,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import {FontAwesome} from '@expo/vector-icons';
 import { useDataContext } from "../../Context/DataContext";
 import { Ionicons } from '@expo/vector-icons';
-import { lightThemeStyles, loadThemePreference } from "../Theme/theme";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function CameraDefault(){
@@ -16,7 +16,7 @@ export default function CameraDefault(){
     const [type,setType] = useState(CameraType.back)
     const [hasPermission,setHasPermission] = useState(false);
     const {adicionarObjeto } = useDataContext();
-    const [currentTheme, setCurrentTheme] = useState(lightThemeStyles);
+
     const [cameraProporcao, setCameraProporcao] = useState('4:3');
     
     const getCameraProporcao = async () => {
@@ -33,17 +33,20 @@ export default function CameraDefault(){
         getCameraProporcao();
       }, []);
 
-    const loadTheme = async () => {
+
+    const [cameraProporcao, setCameraProporcao] = useState('4:3');
+
+    const getCameraProporcao = async () => {
         try {
-          const theme = await loadThemePreference();
-          setCurrentTheme(theme);
+            const cameraProporcaoSalva = await AsyncStorage.getItem('cameraOption');
+            setCameraProporcao(cameraProporcaoSalva);
         } catch (error) {
-          console.error('Erro ao recuperar dados: ', error);
+            console.error('Erro ao recuperar o tema: ', error);
         }
-      }
-    
-      useEffect(() => {
-        loadTheme();
+    }
+
+    useEffect(() => {
+        getCameraProporcao();
       }, []);
 
     useEffect(()=>{
@@ -83,9 +86,9 @@ export default function CameraDefault(){
         <Container>
             <CameraCustom type={type} ref={camRef} ratio={cameraProporcao}>
                 <ContainerButtons>
-                    <Back onPress={handleGaleriaOpen}><Ionicons name="chevron-back" size={24} style={{ ...currentTheme, padding: 5 }} /></Back>
-                     <TakePicture onPress={takeAPicture}><FontAwesome  name="camera" size={30} style={{ ...currentTheme, padding: 5 }} /></TakePicture>
-                    <FlipCam onPress={handleSwitchCam}><Ionicons name="ios-camera-reverse" size={24} style={{ ...currentTheme, padding: 5 }} /></FlipCam>
+                    <Back onPress={handleGaleriaOpen}><Ionicons name="chevron-back" size={24} color="white" /></Back>
+                     <TakePicture onPress={takeAPicture}><FontAwesome  name="camera" size={30} color="white" /></TakePicture>
+                    <FlipCam onPress={handleSwitchCam}><Ionicons name="ios-camera-reverse" size={24} color="white" /></FlipCam>
                 </ContainerButtons>
             </CameraCustom>
         </Container>
