@@ -18,6 +18,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "styled-components/native";
 import { ThemeContext } from "../Theme/theme";
+import { Picker } from '@react-native-picker/picker';
 
 export default function Preferencias() {
   const { toggleTheme } = useContext(ThemeContext);
@@ -28,6 +29,8 @@ export default function Preferencias() {
   const [receberNotificacao, setReceberNotificacao] = useState(false);
   const navigation = useNavigation();
   const { colors } = useTheme();
+  const [cameraOption, setCameraOption] = useState('4:3');
+  const cameraOptions = ['4:3', '16:9', '1:1'];
 
   const loadPreferences = async () => {
     try {
@@ -53,6 +56,9 @@ export default function Preferencias() {
           toggleTheme();
         }
       }
+
+      const cameraOptionSalva = await AsyncStorage.getItem('cameraOption');
+      if (cameraOptionSalva) setCameraOption(cameraOptionSalva);
     } catch (error) {
       console.error("Erro ao recuperar dados: ", error);
     }
@@ -73,6 +79,7 @@ export default function Preferencias() {
         "receberNotificacao",
         JSON.stringify(receberNotificacao)
       );
+      AsyncStorage.setItem('cameraOption', cameraOption);
 
       Alert.alert(
         "Configurações Salvas",
@@ -145,6 +152,20 @@ export default function Preferencias() {
             onPress={() => setReceberNotificacao(!receberNotificacao)}
           />
         </Options>
+        <Options>
+          <Label>Opções de Câmera</Label>
+          <View style={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5 }}>
+            <Picker
+              selectedValue={cameraOption}
+              onValueChange={(itemValue) => setCameraOption(itemValue)}
+              style={{ width: 200, height: 40, color: colors.colorText }}
+            >
+              {cameraOptions.map((option, index) => (
+                <Picker.Item key={index} label={option} value={option} />
+              ))}
+            </Picker>
+          </View>
+      </Options>
       </ContainerOptions>
       <View>
         <TouchableOpacity onPress={handleButtonPress}>
