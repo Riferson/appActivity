@@ -1,18 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import {
   Container,
   Button,
   Text,
-  ButtonText,
-  ContactCard,
-  iconStyles,
-  View,
   ImgContainer,
 } from "./Styled";
 import { Ionicons } from "@expo/vector-icons";
-import { ThemeContext } from "../Theme/theme";
 import { useTheme } from "styled-components";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 
 export default function ContactDetail({ route }) {

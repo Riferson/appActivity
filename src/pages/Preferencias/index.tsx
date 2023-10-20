@@ -26,7 +26,6 @@ export default function Preferencias() {
   const [email, setEmail] = useState("");
   const [idade, setIdade] = useState("");
   const [themeDark, setThemeDark] = useState(false);
-  const [receberNotificacao, setReceberNotificacao] = useState(false);
   const navigation = useNavigation();
   const { colors } = useTheme();
   const [cameraOption, setCameraOption] = useState('4:3');
@@ -42,12 +41,6 @@ export default function Preferencias() {
 
       const idadeSalva = await AsyncStorage.getItem("idade");
       if (idadeSalva) setIdade(idadeSalva);
-
-      const receberNotificacaoSalvo = await AsyncStorage.getItem(
-        "receberNotificacao"
-      );
-      if (receberNotificacaoSalvo)
-        setReceberNotificacao(JSON.parse(receberNotificacaoSalvo));
 
       const temaSalvo = await AsyncStorage.getItem("themeDark");
       if (temaSalvo) {
@@ -65,7 +58,6 @@ export default function Preferencias() {
   };
 
   useEffect(() => {
-    // Execute a função loadPreferences ao abrir a página
     loadPreferences();
 
   }, []);
@@ -75,10 +67,6 @@ export default function Preferencias() {
       AsyncStorage.setItem("email", email);
       AsyncStorage.setItem("idade", idade);
       AsyncStorage.setItem("themeDark", JSON.stringify(themeDark));
-      AsyncStorage.setItem(
-        "receberNotificacao",
-        JSON.stringify(receberNotificacao)
-      );
       AsyncStorage.setItem('cameraOption', cameraOption);
 
       Alert.alert(
@@ -95,14 +83,10 @@ export default function Preferencias() {
       const nomeSalvo = await AsyncStorage.getItem("nome");
       const emailSalvo = await AsyncStorage.getItem("email");
       const idadeSalva = await AsyncStorage.getItem("idade");
-      const themeDarkSalvo = await AsyncStorage.getItem("themeDark");
-      const receberNotificacaoSalvo = await AsyncStorage.getItem(
-        "receberNotificacao"
-      );
 
       const mensagem = `Nome: ${nomeSalvo}\nEmail: ${emailSalvo}\nIdade: ${idadeSalva}\nTema Dark: ${
         themeDark ? "Ativado" : "Desativado"
-      }\nReceber Notificação: ${receberNotificacao ? "Ativado" : "Desativado"}`;
+      }\nResolução da Câmera: ${cameraOption}`;
 
       Alert.alert("Dados Salvos", mensagem);
     } catch (error) {
@@ -111,7 +95,7 @@ export default function Preferencias() {
   };
 
   function handleChangeTheme() {
-    setThemeDark(!themeDark); // Atualiza o estado do CheckBox
+    setThemeDark(!themeDark);
     toggleTheme();
   }
 
@@ -144,13 +128,6 @@ export default function Preferencias() {
         <Options>
           <Label>Theme dark</Label>
           <CheckBox checked={themeDark} onPress={handleChangeTheme} />
-        </Options>
-        <Options>
-          <Label>Receber Notificação</Label>
-          <CheckBox
-            checked={receberNotificacao}
-            onPress={() => setReceberNotificacao(!receberNotificacao)}
-          />
         </Options>
         <Options>
           <Label>Opções de Câmera</Label>
