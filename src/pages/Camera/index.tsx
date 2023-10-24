@@ -16,24 +16,6 @@ export default function CameraDefault(){
     const [type,setType] = useState(CameraType.back)
     const [hasPermission,setHasPermission] = useState(false);
     const {adicionarObjeto } = useDataContext();
-
-    const [cameraProporcao, setCameraProporcao] = useState('4:3');
-    
-    const getCameraProporcao = async () => {
-        try {
-            const cameraProporcaoSalva = await AsyncStorage.getItem('cameraOption');
-            setCameraProporcao(cameraProporcaoSalva);
-        } catch (error) {
-            console.error('Erro ao recuperar o tema: ', error);
-            return lightThemeStyles; // Pode definir um tema padrão caso haja um erro
-        }
-    }
-
-    useEffect(() => {
-        getCameraProporcao();
-      }, []);
-
-
     const [cameraProporcao, setCameraProporcao] = useState('4:3');
 
     const getCameraProporcao = async () => {
@@ -45,11 +27,9 @@ export default function CameraDefault(){
         }
     }
 
-    useEffect(() => {
-        getCameraProporcao();
-      }, []);
 
     useEffect(()=>{
+        getCameraProporcao();
         (async()=>{
             const {status} = await Camera.requestCameraPermissionsAsync();
             setHasPermission(status ==='granted');

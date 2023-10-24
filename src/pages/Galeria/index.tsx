@@ -17,6 +17,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import Modal from "react-native-modal";
 import { useTheme } from "styled-components/native";
+import BackButton from "../../components/BackButton";
 
 export default function Galeria() {
   const { objetos } = useDataContext();
@@ -37,13 +38,7 @@ export default function Galeria() {
   return (
     <Container>
       <ContainerHead>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("home");
-          }}
-        >
-          <Ionicons name="arrow-back" size={44} color={colors.colorText} />
-        </TouchableOpacity>
+      <BackButton route={'home'}/>
         <Title>Galeria</Title>
       </ContainerHead>
       <ContainerImagens>

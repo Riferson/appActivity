@@ -81,6 +81,11 @@ export default function Home() {
         <FontAwesome name="sign-out" size={100} color={colors.colorText} />
         <Text>Sair</Text>
       </ContainerProj>
+      <ContainerProj onPress={()=>{navigation.navigate("cadastros");}}>
+        <FontAwesome name="image" size={100} color={colors.colorText} />
+        <Text>Cadastros</Text>
+      </ContainerProj>
+      
     </Container>
   );
 }

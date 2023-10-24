@@ -28,11 +28,10 @@ export default function Preferencias() {
   const [idade, setIdade] = useState("");
   const [themeDark, setThemeDark] = useState(false);
   const [receberNotificacao, setReceberNotificacao] = useState(false);
-  const [currentTheme, setCurrentTheme] = useState(lightThemeStyles);
+  const [cameraProporcao, setCameraProporcao] = useState('4:3');
 
   const navigation = useNavigation();
   const { colors } = useTheme();
-  const [cameraOption, setCameraOption] = useState('4:3');
   const cameraOptions = ['4:3', '16:9', '1:1'];
 
   const loadPreferences = async () => {
@@ -53,9 +52,9 @@ export default function Preferencias() {
           toggleTheme();
         }
       }
-
+      
       const cameraOptionSalva = await AsyncStorage.getItem('cameraOption');
-      if (cameraOptionSalva) setCameraOption(cameraOptionSalva);
+      if (cameraOptionSalva) setCameraProporcao(cameraOptionSalva);
     } catch (error) {
       console.error("Erro ao recuperar dados: ", error);
     }
@@ -74,7 +73,7 @@ export default function Preferencias() {
       AsyncStorage.setItem('themeDark', JSON.stringify(themeDark));
       AsyncStorage.setItem('receberNotificacao', JSON.stringify(receberNotificacao));
 
-      AsyncStorage.setItem('cameraOption', cameraOption);
+      AsyncStorage.setItem('cameraOption',cameraProporcao );
 
       Alert.alert(
         "Configurações Salvas",
@@ -94,7 +93,7 @@ export default function Preferencias() {
 
       const mensagem = `Nome: ${nomeSalvo}\nEmail: ${emailSalvo}\nIdade: ${idadeSalva}\nTema Dark: ${
         themeDark ? "Ativado" : "Desativado"
-      }\nResolução da Câmera: ${cameraOption}`;
+      }\nResolução da Câmera: ${cameraProporcao}`;
 
       Alert.alert("Dados Salvos", mensagem);
     } catch (error) {
@@ -107,6 +106,22 @@ export default function Preferencias() {
     toggleTheme();
   }
 
+
+  
+
+  const getCameraProporcao = async () => {
+      try {
+          const cameraProporcaoSalva = await AsyncStorage.getItem('cameraOption');
+          setCameraProporcao(cameraProporcaoSalva);
+      } catch (error) {
+          console.error('Erro ao recuperar o tema: ', error);
+          return lightThemeStyles; // Pode definir um tema padrão caso haja um erro
+      }
+  }
+
+  useEffect(() => {
+      getCameraProporcao();
+    }, []);
   return (
     <Container>
       <ContainerHead>
@@ -139,17 +154,14 @@ export default function Preferencias() {
         </Options>
         <Options>
 
-          <Label style={currentTheme}>Receber Notificação</Label>
+          <Label >Receber Notificação</Label>
           <CheckBox checked={receberNotificacao} onPress={() => setReceberNotificacao(!receberNotificacao)} />
         </Options>
         <Options>
-          <Label style={currentTheme}>Opções de Câmera</Label>
-
           <Label>Opções de Câmera</Label>
-
           <View style={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5 }}>
             <Picker
-              selectedValue={cameraOption}
+              selectedValue={cameraOptions}
               onValueChange={(itemValue) => setCameraOption(itemValue)}
               style={{ width: 200, height: 40, color: colors.colorText }}
             >
