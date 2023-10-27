@@ -7,7 +7,7 @@ import CameraDefault from "../pages/Camera";
 import Contatos from "../pages/Contatos";
 import Contato from "../pages/Contato"
 import Preferencias from "../pages/Preferencias";
-import Cadastros from "../pages/Cadastros";
+import Cadastros from "../pages/Cadastros/index";
 
 const { Screen, Navigator } = createStackNavigator();
 
