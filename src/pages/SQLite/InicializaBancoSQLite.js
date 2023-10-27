@@ -4,7 +4,7 @@ const db = SQLite.openDatabase('appActivity.db');
 
 db.transaction((tx) => {
   tx.executeSql(
-    "CREATE TABLE IF NOT EXISTS Pessoas (Id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT, email TEXT, sexo TEXT, date TEXT);"
+    "CREATE TABLE IF NOT EXISTS Pessoa (Id INTEGER PRIMARY KEY, nome TEXT, email TEXT, sexo TEXT, date TEXT);"
   );
 });
 

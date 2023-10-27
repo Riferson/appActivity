@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { View, TouchableOpacity, Modal, StyleSheet } from 'react-native';
+import { Modal, BackHandler } from 'react-native';
 import BackButton from "../../components/BackButton";
-import { Container, ContainerTitle, Title, ContainerList, ContainerCadastro, ButtonCadastrar, Text, TextButtom, ScrollViewPessoas, ContainerCard } from './styled';
+import {ContainerProj,Button, Container, ContainerTitle, Title, ContainerList, ContainerOptions, ButtonCadastrar, Text, TextButtom, ScrollViewPessoas, ContainerCard } from './styled';
 import { ContainerModal, ContainerTitleModal, TitleModal, ContainerFormularioModal, ContainerInputModal, LabelModal, InputTextModal, ContainerSubmiteModal, SubmiteModal, TextModal } from './styledModal';
 import CloseButton from "../../components/CloseButton";
 import RadioButtonGroup from "../../components/RadioButtonSelect";
 import Pessoas from "../SQLite/Pessoas";
 import { Alert } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+import { useTheme } from "styled-components/native";
 
 interface dataProps {
-    id?: string;
+    Id?: number;
     nome?: string;
     email?: string;
     sexo?: string;
@@ -19,12 +21,12 @@ interface dataProps {
 export default function Cadastros() {
     const [modalVisible, setModalVisible] = useState(false);
     const [nome, setNome] = useState('');
-    const [id, setID] = useState('');
+    const [Id, setID] = useState(null);
     const [email, setEmail] = useState('');
     const [date, setDate] = useState('');
     const [sexo, setSexo] = useState('');
     const [data, setData] = useState<dataProps[]>([]);
-
+    const { colors } = useTheme();
     const dataSexo = [{ Label: 'Masculino', Value: 'masculino' }, { Label: 'Feminino', Value: 'feminino' }];
 
     const openModal = () => {
@@ -42,32 +44,31 @@ export default function Cadastros() {
 
     function LimparCampos() {
         setNome('');
-        setID('');
+        setID(null);
         setEmail('');
         setSexo('');
         setDate('');
     }
 
     function handleSalvar() {
-        if (nome.trim() === '' || date.trim() === '' || email.trim() === '' || sexo.trim() === '') {
+        if (Id.trim()=== ''|| nome.trim() === '' || date.trim() === '' || email.trim() === '' || sexo.trim() === '') {
             alert('Informe os campos obrigatórios Nome, Email e Nascimento e Sexo ');
           } else {
             const temp = {
-                id: id,
+                Id: Id,
                 nome: nome,
                 email: email,
                 sexo: sexo,
                 date: date,
             };
-    
+            temp.Id= Number(temp.Id);
             temp.nome = temp.nome.toString();
             temp.email = temp.email.toString();
             temp.sexo = temp.sexo.toString();
             temp.date = temp.date.toString();
-    
             Pessoas.create(temp)
-                .then((id) => {
-                    alert('Pessoa Cadastrada com Sucesso ID: ' + id);
+                .then((d) => {
+                    alert('Pessoa Cadastrada com Sucesso ID: ' + Id);
                     setData([...data, temp]);
                     closeModal();
                 })
@@ -79,12 +80,16 @@ export default function Cadastros() {
     }
 
     useEffect(() => {
-        console.log('nome', nome);
-        console.log('id', id);
-        console.log('email', email);
-        console.log('date', date);
-        console.log('sexo', sexo);
-    }, [data]);
+        if(!data || data.length === 0){
+            Pessoas.ConsultaDados()
+            .then(people => {
+             setData(people);
+            })
+            .catch(error => {
+              console.error("Erro ao consultar os dados:", error);
+            });
+        }
+    }, []);
 
     const formatToDDMMYYYY = (value: any) => {
         const numericValue = value.replace(/\D/g, '');
@@ -98,29 +103,68 @@ export default function Cadastros() {
         }
     };
 
+    function clearData(){
+        setData([]);
+        Pessoas.clearTable;
+    }
+
+    const handleExitApp = () => {
+        Alert.alert(
+          "Confirmação",
+          "Tem certeza de que deseja sair?",
+          [
+            {
+              text: "Cancelar",
+              style: "cancel",
+            },
+            {
+              text: "Sair",
+              onPress: () => {
+                BackHandler.exitApp(); // Sair do aplicativo
+              },
+            },
+          ],
+          { cancelable: false }
+        );
+      };
+
     return (
         <Container>
             <ContainerTitle>
                 <BackButton route={'home'} />
+                
                 <Title>Lista de Cadastros</Title>
+                    <ContainerProj onPress={handleExitApp}>
+                        <FontAwesome name="sign-out" size={20} color={colors.colorText} />
+                    </ContainerProj>
             </ContainerTitle>
             <ContainerList>
+                <ScrollViewPessoas>
+                    {data && data.map((item,index)=>(
+                        <ContainerCard>
+                            <Text>id: {item.Id}</Text>
+                            <Text>Nome: {item.nome}</Text>
+                            <Text>E-Mail: {item.email}</Text>
+                            <Text>Nascimento: {item.date}</Text>
+                            <Text>sexo: {item.sexo}</Text>
+                        </ContainerCard>
+                    ))}
+                </ScrollViewPessoas>
                 <ButtonCadastrar onPress={openModal}><TextButtom>Nova Pessoa</TextButtom></ButtonCadastrar>
-                <SubmiteModal onPress={Pessoas.clearTable}><TextModal>Limpar o banco</TextModal></SubmiteModal>
             </ContainerList>
-            <ContainerCadastro>
-            <SubmiteModal onPress={async () => {
-            const isValid = await Pessoas.validationDb();
-            if (isValid) {
-                Pessoas.exportDb();
-            } else {
-                alert("Nenhum banco para exportar");
-            }
-            }}>
-            <TextModal>Debug - Exportar banco</TextModal>
-            </SubmiteModal>
-                
-            </ContainerCadastro>
+            <ContainerOptions>
+                <Button onPress={clearData}><TextModal>Limpar o banco</TextModal></Button>
+                <Button onPress={async () => {
+                const isValid = await Pessoas.validationDb();
+                if (isValid) {
+                    Pessoas.exportDb();
+                } else {
+                    alert("Nenhum banco para exportar");
+                }
+                }}>
+                <TextModal>Debug - Exportar banco</TextModal>
+                </Button>
+            </ContainerOptions>
 
             <Modal
                 animationType="slide"
@@ -135,7 +179,7 @@ export default function Cadastros() {
                     <ContainerFormularioModal>
                         <ContainerInputModal>
                             <LabelModal>Id:</LabelModal>
-                            <InputTextModal onChangeText={(text: any) => setID(text)} value={id} />
+                            <InputTextModal onChangeText={(text: any) => setID(text)} value={Id} />
                         </ContainerInputModal>
                         <ContainerInputModal>
                             <LabelModal>Nome:</LabelModal>

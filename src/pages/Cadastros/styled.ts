@@ -26,20 +26,37 @@ export const Text = styled.Text`
 export const ContainerList = styled.View`
     margin-top: 20px;
     height: 80%;
-    border: 1px solid red;
 `;
 
 
-export const ContainerCadastro = styled.View`
-    justify-content: center;
+export const ContainerOptions = styled.View`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
     align-items: center;
     margin: 20px;
 `;
-export const ScrollViewPessoas = styled.ScrollView``;
+export const ContainerProj = styled.TouchableOpacity`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 20px;
+`;
+export const ScrollViewPessoas = styled.ScrollView`
+    border: 1px solid ${(props) => props.theme.colors.colorText};
+    margin-bottom:10px;
+`;
 
 
 
 export const ButtonCadastrar = styled.TouchableOpacity`
+    border: 1px solid ${(props) => props.theme.colors.colorText};
+    border-radius: 5px;
+    padding: 10px;
+    margin: auto;
+`;
+
+export const Button = styled.TouchableOpacity`
     border: 1px solid ${(props) => props.theme.colors.colorText};
     border-radius: 5px;
     padding: 10px;
