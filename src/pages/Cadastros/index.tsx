@@ -75,6 +75,16 @@ export default function Cadastros() {
                     console.log(err);
                     Alert.alert('Erro ao salvar pessoa.');
                 });
+
+                Pessoas.ConsultaDados()
+                .then(people => {
+                  people.forEach(person => {
+                    console.log(person);
+                  });
+                })
+                .catch(error => {
+                  console.error("Erro ao consultar os dados:", error);
+                });
           }
     }
 

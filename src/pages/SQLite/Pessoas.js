@@ -59,6 +59,20 @@ const validationDb = async () => {
   });
 };
 
+const ConsultaDados = () => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      //comando SQL modificável
+      tx.executeSql(
+        "SELECT * FROM Pessoas;",
+        [],
+        //-----------------------
+        (_, { rows }) => resolve(rows._array),
+        (_, error) => reject(error) // erro interno em tx.executeSql
+      );
+    });
+  });
+};
 const clearTable = async () => {
   const clearTableQuery = "DELETE FROM Pessoas";
 
@@ -85,4 +99,5 @@ export default {
   clearTable,
   validationDb,
   exportDb,
+  ConsultaDados,
 };
