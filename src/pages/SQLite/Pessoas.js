@@ -5,8 +5,8 @@ const create = (obj) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        "INSERT INTO Pessoa (Id,nome, email, sexo, date) VALUES (?, ?, ?, ?, ?);",
-        [obj.Id,obj.nome, obj.email, obj.sexo,obj.date],
+        "INSERT INTO Pessoas (nome, email, sexo, date) VALUES (?, ?, ?, ?);",
+        [obj.nome, obj.email, obj.sexo,obj.date],
         (_, { rowsAffected, insertId }) => {
           if (rowsAffected > 0) resolve(insertId);
           else reject("Error inserting obj: " + JSON.stringify(obj));
@@ -39,7 +39,7 @@ const exportDb = async () => {
 
 
 const validationDb = async () => {
-  const query = "SELECT COUNT(*) AS count FROM Pessoa";
+  const query = "SELECT COUNT(*) AS count FROM Pessoas";
 
   return new Promise((resolve) => {
     db.transaction((tx) => {
@@ -75,7 +75,7 @@ const ConsultaDados = () => {
 };
 
 const clearTable = async () => {
-  const clearTableQuery = "DELETE FROM Pessoa";
+  const clearTableQuery = "DELETE FROM Pessoas";
 
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {

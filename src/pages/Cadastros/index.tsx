@@ -51,23 +51,21 @@ export default function Cadastros() {
     }
 
     function handleSalvar() {
-        if (Id.trim()=== ''|| nome.trim() === '' || date.trim() === '' || email.trim() === '' || sexo.trim() === '') {
+        if ( nome.trim() === '' || date.trim() === '' || email.trim() === '' || sexo.trim() === '') {
             alert('Informe os campos obrigatórios Nome, Email e Nascimento e Sexo ');
           } else {
             const temp = {
-                Id: Id,
                 nome: nome,
                 email: email,
                 sexo: sexo,
                 date: date,
             };
-            temp.Id= Number(temp.Id);
             temp.nome = temp.nome.toString();
             temp.email = temp.email.toString();
             temp.sexo = temp.sexo.toString();
             temp.date = temp.date.toString();
             Pessoas.create(temp)
-                .then((d) => {
+                .then((Id) => {
                     alert('Pessoa Cadastrada com Sucesso ID: ' + Id);
                     setData([...data, temp]);
                     closeModal();
@@ -89,6 +87,7 @@ export default function Cadastros() {
               console.error("Erro ao consultar os dados:", error);
             });
         }
+        console.log('ddata',data)
     }, []);
 
     const formatToDDMMYYYY = (value: any) => {
@@ -104,8 +103,8 @@ export default function Cadastros() {
     };
 
     function clearData(){
-        setData([]);
         Pessoas.clearTable;
+        setData([]);
     }
 
     const handleExitApp = () => {
