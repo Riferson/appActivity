@@ -2,6 +2,7 @@ import styled from "styled-components/native";
 
 
 export const Container = styled.View`
+    background-color: ${(props) => props.theme.colors.background};
     margin-top: 30px;
 `;
 
@@ -39,9 +40,10 @@ export const ScrollViewPessoas = styled.ScrollView``;
 
 
 export const ButtonCadastrar = styled.TouchableOpacity`
-    border: 1px solid purple;
+    border: 1px solid ${(props) => props.theme.colors.colorText};
     border-radius: 5px;
-    padding: 5px;
+    padding: 10px;
+    margin: auto;
 `;
 
 export const TextButtom = styled.Text`
