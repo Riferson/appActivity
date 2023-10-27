@@ -82,7 +82,7 @@ export default function Home() {
         <Text>Sair</Text>
       </ContainerProj>
       <ContainerProj onPress={()=>{navigation.navigate("cadastros");}}>
-        <FontAwesome name="image" size={100} color={colors.colorText} />
+        <FontAwesome name="save" size={100} color={colors.colorText} />
         <Text>Cadastros</Text>
       </ContainerProj>
       

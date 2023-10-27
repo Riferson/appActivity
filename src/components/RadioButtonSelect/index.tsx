@@ -27,7 +27,7 @@ export default function RadioButtonGroup({data,ActionReturn}:Props) {
             <ContentContainer>
                 {data && data.map((item,index)=>(
                     <ContainerCard key={index}>
-                        <RadioButton.Android value={item.Value} />
+                        <RadioButton.Android value={item.Value}/>
                         <Label>{item.Label}</Label>
                     </ContainerCard>
                 ))}

@@ -4,7 +4,6 @@ export const Container = styled.ScrollView`
     flex: 1;
     height: 100%;
     padding: 40px;
-    background-color: ${(props) => props.theme.colors.background}
 `;
 
 export const View = styled.View`
@@ -35,7 +34,6 @@ export const ButtonText = styled.Text`
 export const Text = styled.Text`
   font-size: 18px;
   margin-top: 10px;
-  color: ${(props) => props.theme.colors.colorText};
 `;
 
 export const iconStyles = {
