@@ -3,8 +3,12 @@ import { View, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 import BackButton from "../../components/BackButton";
 import {Container,ContainerTitle,Title,ContainerList,ContainerCadastro,ButtonCadastrar,Text,TextButtom,ScrollViewPessoas,ContainerCard} from './styled';
 import {ContainerModal,ContainerTitleModal,TitleModal,ContainerFormularioModal,ContainerInputModal,LabelModal,InputTextModal,ContainerSubmiteModal,SubmiteModal,TextModal} from './styledModal';
-import CloseButton from "../../components/CloseButton";
+import CloseButton from "../../components/CloseButton"
 import RadioButtonGroup from "../../components/RadioButtonSelect";
+import Pessoas from "../SQLite/Pessoas";
+import { Alert } from "react-native";
+
+
 
 interface dataProps{
         id?:string;
@@ -13,6 +17,8 @@ interface dataProps{
         sexo?:string;
         date?:string;
 };
+
+
 
 export default function Cadastros(){
     const [modalVisible, setModalVisible] = useState(false);
@@ -46,7 +52,10 @@ export default function Cadastros(){
     setDate('');
   }
 
+  
   function handleSavar(){
+  
+
     const temp = {
         id:id,
         nome:nome,
@@ -57,7 +66,29 @@ export default function Cadastros(){
     setData([...data,temp])
     console.log(data);
     closeModal();
+
+    
+    Pessoas.create( {Cadastros} )
+    .then( id => console.log('Pessoa Cadastrada com Sucesso ID: '+ id) )
+    .catch( err => console.log(err) )
+
+
+Pessoas.all()
+.then((pessoas) => {
+pessoas.forEach((pessoa) => {
+console.log(pessoa); // Use console.log para imprimir os registros
+});
+})
+.catch((error) => {
+console.error('Erro ao recuperar registros:', error);
+});
+
+
   }
+
+  
+
+
 
   useEffect(()=>{
 
