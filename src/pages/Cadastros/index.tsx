@@ -34,16 +34,14 @@ export default function Cadastros() {
     const navigation = useNavigation();
 
     const handleUpdatePessoa = (updatedPessoa) => {
-        // Encontre o índice da pessoa na lista e atualize-a
         const updatedIndex = data.findIndex((item) => item.Id === updatedPessoa.Id);
         if (updatedIndex !== -1) {
             data[updatedIndex] = updatedPessoa;
-            setData([...data]); // Atualize o estado da lista
+            setData([...data]); 
         }
     };
 
     const handleDeletePessoa = (deletedId) => {
-        // Atualize o estado da lista excluindo a pessoa com o ID correspondente
         setData(data.filter((item) => item.Id !== deletedId));
     };
 
@@ -86,7 +84,7 @@ export default function Cadastros() {
             temp.telefone = temp.telefone.toString();
             Pessoas.create(temp)
                 .then((Id) => {
-                    setID(Id.toString()); // Defina o valor de Id como uma string
+                    setID(Id.toString());
                     alert('Pessoa Cadastrada com Sucesso ID: ' + Id);
                     setData([...data, temp]);
                     closeModal();
@@ -139,7 +137,7 @@ export default function Cadastros() {
                 {
                     text: "Sair",
                     onPress: () => {
-                        BackHandler.exitApp(); // Sair do aplicativo
+                        BackHandler.exitApp(); 
                     },
                 },
             ],
