@@ -59,6 +59,42 @@ const validationDb = async () => {
   });
 };
 
+
+const update = (id, obj) => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      //comando SQL modificável
+      tx.executeSql(
+        "UPDATE Pessoas SET nome=?, email=?, sexo=?, date = ? WHERE id=?;",
+        [obj.nome, obj.email, obj.sexo,obj.date, id],
+        //-----------------------
+        (_, { rowsAffected }) => {
+          if (rowsAffected > 0) resolve(rowsAffected);
+          else reject("Error updating obj: id=" + id); // nenhum registro alterado
+        },
+        (_, error) => reject(error) // erro interno em tx.executeSql
+      );
+    });
+  });
+};
+
+const deletar = (id) => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      //comando SQL modificável
+      tx.executeSql(
+        "DELETE FROM Pessoas WHERE id=?;",
+        [id],
+        //-----------------------
+        (_, { rowsAffected }) => {
+          resolve(rowsAffected);
+        },
+        (_, error) => reject(error) // erro interno em tx.executeSql
+      );
+    });
+  });
+};
+
 const ConsultaDados = () => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
