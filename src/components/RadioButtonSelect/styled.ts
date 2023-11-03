@@ -2,6 +2,7 @@ import styled from "styled-components/native";
 
 export const Container = styled.View`
 flex-wrap: wrap;
+margin-top: 15px;
 `;
 
 
@@ -16,7 +17,7 @@ export const ContainerCard = styled.View`
 export const Label = styled.Text``;
 
 export const ContentContainer = styled.View`
-        display: flex;
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 `;

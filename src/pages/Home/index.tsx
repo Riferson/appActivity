@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { Container, ContainerProj, Text, Title } from "./styled";
+import { Container, ContainerProj, Text, Title, ContainerTitle, View, SubTitle } from "./styled";
 import { BackHandler } from "react-native";
 import { Alert } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
@@ -60,32 +60,36 @@ export default function Home() {
 
   return (
     <Container>
-      <Title>Bem-vindo, {nomeUsuario}!</Title>
-      <ContainerProj onPress={handleGaleriaOpen}>
-        <FontAwesome name="image" size={100} color={colors.colorText} />
-        <Text>Galeria</Text>
-      </ContainerProj>
-      <ContainerProj onPress={handleContatosOpen}>
-        <AntDesign name="contacts" size={100} color={colors.colorText} />
-        <Text>Contatos</Text>
-      </ContainerProj>
-      <ContainerProj
-        onPress={() => {
-          navigation.navigate("preferencias");
-        }}
-      >
-        <AntDesign name="setting" size={100} color={colors.colorText} />
-        <Text>Options</Text>
-      </ContainerProj>
-      <ContainerProj onPress={handleExitApp}>
-        <FontAwesome name="sign-out" size={100} color={colors.colorText} />
-        <Text>Sair</Text>
-      </ContainerProj>
-      <ContainerProj onPress={()=>{navigation.navigate("cadastros");}}>
-        <FontAwesome name="save" size={100} color={colors.colorText} />
-        <Text>Cadastros</Text>
-      </ContainerProj>
-      
+      <ContainerTitle>
+        <Title>Aplicativo - DDM</Title>
+      </ContainerTitle>
+      <View>
+        <SubTitle>Bem-vindo, {nomeUsuario}!</SubTitle>
+        <ContainerProj onPress={handleGaleriaOpen}>
+          <FontAwesome name="image" size={70} color={colors.colorText} />
+          <Text>Galeria</Text>
+        </ContainerProj>
+        <ContainerProj onPress={handleContatosOpen}>
+          <AntDesign name="contacts" size={70} color={colors.colorText} />
+          <Text>Contatos</Text>
+        </ContainerProj>
+        <ContainerProj
+          onPress={() => {
+            navigation.navigate("preferencias");
+          }}
+        >
+          <AntDesign name="setting" size={70} color={colors.colorText} />
+          <Text>Options</Text>
+        </ContainerProj>
+        <ContainerProj onPress={() => { navigation.navigate("cadastros"); }}>
+          <FontAwesome name="save" size={70} color={colors.colorText} />
+          <Text>Cadastros</Text>
+        </ContainerProj>
+        <ContainerProj onPress={handleExitApp}>
+          <FontAwesome name="sign-out" size={70} color={colors.colorText} />
+          <Text>Sair</Text>
+        </ContainerProj>
+      </View>
     </Container>
   );
 }

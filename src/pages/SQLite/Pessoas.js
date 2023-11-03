@@ -5,8 +5,8 @@ const create = (obj) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        "INSERT INTO Pessoas (nome, email, sexo, date) VALUES (?, ?, ?, ?);",
-        [obj.nome, obj.email, obj.sexo,obj.date],
+        "INSERT INTO Pessoas (nome, email, sexo, date, telefone) VALUES (?, ?, ?, ?, ?);",
+        [obj.nome, obj.email, obj.sexo,obj.date, obj.telefone],
         (_, { rowsAffected, insertId }) => {
           if (rowsAffected > 0) resolve(insertId);
           else reject("Error inserting obj: " + JSON.stringify(obj));
@@ -63,16 +63,14 @@ const validationDb = async () => {
 const update = (id, obj) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
-      //comando SQL modificável
       tx.executeSql(
-        "UPDATE Pessoas SET nome=?, email=?, sexo=?, date = ? WHERE id=?;",
-        [obj.nome, obj.email, obj.sexo,obj.date, id],
-        //-----------------------
+        "UPDATE Pessoas SET nome=?, email=?, sexo=?, date = ?, telefone = ? WHERE id=?;",
+        [obj.nome, obj.email, obj.sexo,obj.date, obj.telefone, id],
         (_, { rowsAffected }) => {
           if (rowsAffected > 0) resolve(rowsAffected);
-          else reject("Error updating obj: id=" + id); // nenhum registro alterado
+          else reject("Error updating obj: id=" + id); 
         },
-        (_, error) => reject(error) // erro interno em tx.executeSql
+        (_, error) => reject(error)
       );
     });
   });
@@ -81,15 +79,13 @@ const update = (id, obj) => {
 const deletar = (id) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
-      //comando SQL modificável
       tx.executeSql(
         "DELETE FROM Pessoas WHERE id=?;",
         [id],
-        //-----------------------
         (_, { rowsAffected }) => {
           resolve(rowsAffected);
         },
-        (_, error) => reject(error) // erro interno em tx.executeSql
+        (_, error) => reject(error) 
       );
     });
   });
@@ -98,32 +94,33 @@ const deletar = (id) => {
 const ConsultaDados = () => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
-      //comando SQL modificável
       tx.executeSql(
         "SELECT * FROM Pessoas;",
         [],
-        //-----------------------
         (_, { rows }) => resolve(rows._array),
-        (_, error) => reject(error) // erro interno em tx.executeSql
+        (_, error) => reject(error)
       );
     });
   });
 };
 
 const clearTable = async () => {
-  const clearTableQuery = "DELETE FROM Pessoas";
-
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        clearTableQuery,
+        'DELETE FROM Pessoas',
         [],
         (_, { rowsAffected }) => {
-          alert("Dados limpos com sucesso!");
-          resolve(true);
+          if (rowsAffected > 0) {
+            alert('Dados da tabela Pessoas limpos com sucesso!');
+            resolve(true);
+          } else {
+            alert('Nenhum dado para limpar na tabela Pessoas.');
+            resolve(false);
+          }
         },
         (_, error) => {
-          console.error("Erro ao excluir dados da tabela Pessoa:", error);
+          console.error('Erro ao excluir dados da tabela Pessoas:', error);
           resolve(false);
         }
       );
@@ -136,5 +133,7 @@ export default {
   clearTable,
   validationDb,
   exportDb,
-  ConsultaDados
+  ConsultaDados,
+  update,
+  deletar,
 };

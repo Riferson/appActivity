@@ -9,12 +9,13 @@ interface Props{
         Value:string;
     }[];
     ActionReturn:(value: any)=>void;
-
+    value: string;
 }
 
 
-export default function RadioButtonGroup({data,ActionReturn}:Props) {
-    const [checked, setChecked] = useState('opcao1');
+export default function RadioButtonGroup({data,ActionReturn, value}:Props) {
+    
+    const [checked, setChecked] = useState(value);
   
     function handleChangeValue(value:any){
         setChecked(value);
@@ -22,19 +23,19 @@ export default function RadioButtonGroup({data,ActionReturn}:Props) {
     }
 
     return (
-      <Container>
-        <RadioButton.Group onValueChange={(value) =>handleChangeValue(value) } value={checked}>
+        <Container>
+          <RadioButton.Group onValueChange={(value) => handleChangeValue(value)} value={checked}>
             <ContentContainer>
-                {data && data.map((item,index)=>(
-                    <ContainerCard key={index}>
-                        <RadioButton.Android value={item.Value}/>
-                        <Label>{item.Label}</Label>
-                    </ContainerCard>
+              {data &&
+                data.map((item, index) => (
+                  <ContainerCard key={index}>
+                    <RadioButton.Android value={item.Value} />
+                    <Label>{item.Label}</Label>
+                  </ContainerCard>
                 ))}
             </ContentContainer>
-          
-        </RadioButton.Group>
-      </Container>
-    );
+          </RadioButton.Group>
+        </Container>
+      );
   }
   
