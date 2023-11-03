@@ -6,6 +6,10 @@ export const Container = styled.View`
     margin-top: 30px;
 `;
 
+export const View = styled.View`
+    padding: 15px 30px;
+    height: 100%;
+`;
 
 export const ContainerTitle = styled.View`
     display: flex;
@@ -18,7 +22,7 @@ export const ContainerTitle = styled.View`
 
 export const Title = styled.Text`
     color: ${(props) => props.theme.colors.colorTextSecondary};
-    margin: 0 55px;
+    margin: 0 40px;
     font-size: 20px;
 `;
 
@@ -80,3 +84,35 @@ export const ContainerCard = styled.TouchableOpacity`
     padding: 10px;
     border-radius: 10px;
 `;
+
+export const InputText = styled.TextInput`
+    border: 1px solid ${(props) => props.theme.colors.colorText};
+    font-size: 18px;
+    align-items: center;
+    text-align:end;
+    padding: 5px;
+    border-radius: 10px
+`;
+
+export const Label = styled.Text`
+    color: ${(props) => props.theme.colors.colorText};
+    font-size: 20px;
+    margin-top: 20px;
+`;
+
+export const ButtonContainer = styled.TouchableOpacity`
+        border-radius: 5px;
+        justify-content: center;
+        margin: 15px auto;
+        background-color: ${(props) => props.theme.colors.backgroundSecondary};
+        padding: 10px;
+        width: 40%;
+        text-align: center;
+`;
+
+export const ButtonText = styled.Text`
+    color: ${(props) => props.theme.colors.colorTextSecondary};
+    font-size: 20px;
+    text-align: center;
+`;
+
