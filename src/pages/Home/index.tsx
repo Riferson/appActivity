@@ -83,7 +83,11 @@ export default function Home() {
         </ContainerProj>
         <ContainerProj onPress={() => { navigation.navigate("cadastros"); }}>
           <FontAwesome name="save" size={70} color={colors.colorText} />
-          <Text>Cadastros</Text>
+          <Text>Cadastro Pessoas</Text>
+        </ContainerProj>
+        <ContainerProj onPress={() => { navigation.navigate("cadastros2"); }}>
+          <FontAwesome name="tasks" size={70} color={colors.colorText} />
+          <Text>Cadastro Tarefas</Text>
         </ContainerProj>
         <ContainerProj onPress={() => { navigation.navigate("RoomReservation"); }}>
           <FontAwesome name="save" size={70} color={colors.colorText} />
