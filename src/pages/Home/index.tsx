@@ -89,6 +89,10 @@ export default function Home() {
           <FontAwesome name="tasks" size={70} color={colors.colorText} />
           <Text>Cadastro Tarefas</Text>
         </ContainerProj>
+        <ContainerProj onPress={() => { navigation.navigate("RoomReservation"); }}>
+          <FontAwesome name="save" size={70} color={colors.colorText} />
+          <Text>Reserva Sala</Text>
+        </ContainerProj>
         <ContainerProj onPress={handleExitApp}>
           <FontAwesome name="sign-out" size={70} color={colors.colorText} />
           <Text>Sair</Text>

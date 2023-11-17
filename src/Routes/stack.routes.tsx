@@ -11,6 +11,8 @@ import Cadastros from "../pages/Cadastros/index";
 import PessoaDetalhes from "../pages/PessoaDetalhes";
 import Cadastros2 from "../pages/Cadastros API";
 import TarefaDetalhes from "../pages/TarefaDetalhes";
+import RoomReservation from "../pages/RoomReservation";
+import RoomReservationDetails from "../pages/RoomReservationDetails";
 
 const { Screen, Navigator } = createStackNavigator();
 
@@ -28,6 +30,8 @@ export function StackRoutes() {
         <Screen name="PessoaDetalhes" component={PessoaDetalhes}/>
         <Screen name="TarefaDetalhes" component={TarefaDetalhes}/>
         <Screen name="cadastros2" component={Cadastros2}/>
+        <Screen name='RoomReservation' component={RoomReservation}/>
+        <Screen name='RoomReservationDetails' component={RoomReservationDetails}/>
       </Navigator>
     </NavigationContainer>
   );

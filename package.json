@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@date-fns/upgrade": "^1.0.3",
     "@react-native-async-storage/async-storage": "1.18.2",
     "@react-native-community/hooks": "^3.0.0",
     "@react-native-picker/picker": "2.4.10",
@@ -18,6 +19,7 @@
     "@types/styled-components": "^5.1.28",
     "date-fns": "^2.30.0",
     "dotenv": "^16.3.1",
+    "axios": "^1.6.2",
     "expo": "^49.0.13",
     "expo-camera": "~13.4.4",
     "expo-contacts": "~12.2.0",
@@ -29,6 +31,7 @@
     "pg-promise": "^11.5.4",
     "react": "18.2.0",
     "react-native": "0.72.6",
+    "react-native-calendars": "^1.1302.0",
     "react-native-contacts": "^7.0.7",
     "react-native-elements": "^3.4.3",
     "react-native-exit-app": "^2.0.0",
