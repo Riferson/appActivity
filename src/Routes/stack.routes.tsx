@@ -9,6 +9,8 @@ import Contato from "../pages/Contato"
 import Preferencias from "../pages/Preferencias";
 import Cadastros from "../pages/Cadastros/index";
 import PessoaDetalhes from "../pages/PessoaDetalhes";
+import RoomReservation from "../pages/RoomReservation";
+import RoomReservationDetails from "../pages/RoomReservationDetails";
 
 const { Screen, Navigator } = createStackNavigator();
 
@@ -24,6 +26,8 @@ export function StackRoutes() {
         <Screen name="preferencias" component={Preferencias} />
         <Screen name="cadastros" component={Cadastros} />
         <Screen name="PessoaDetalhes" component={PessoaDetalhes}/>
+        <Screen name='RoomReservation' component={RoomReservation}/>
+        <Screen name='RoomReservationDetails' component={RoomReservationDetails}/>
       </Navigator>
     </NavigationContainer>
   );
